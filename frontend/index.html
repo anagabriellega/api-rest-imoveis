@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Imóveis</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Cadastro de Imóveis</h1>
+
+  <form id="formImovel">
+    <input type="text" id="titulo" placeholder="Título" required>
+    <input type="text" id="endereco" placeholder="Endereço" required>
+    <input type="text" id="descricao" placeholder="Descrição">
+    <input type="number" id="preco" placeholder="Preço" required>
+    <button type="submit">Salvar Imóvel</button>
+  </form>
+
+  <div id="listaImoveis"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
