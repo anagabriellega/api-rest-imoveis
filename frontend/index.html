@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cadastro de Imóveis</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome -->
 </head>
-
 <body>
-  <h1>Cadastro de Imóveis</h1>
+  <div class="container">
+    <h1>Cadastro de Imóveis</h1>
 
-  <form id="formImovel">
-    <input type="text" id="titulo" placeholder="Título" required>
-    <input type="text" id="endereco" placeholder="Endereço" required>
-    <input type="text" id="descricao" placeholder="Descrição">
-    <input type="number" id="preco" placeholder="Preço" required>
-    <button type="submit">Salvar Imóvel</button>
-  </form>
+    <form id="imovel-form">
+      <input type="hidden" id="id" />
+      <input type="text" id="titulo" placeholder="Título do imóvel" required />
+      <input type="text" id="endereco" placeholder="Endereço" required />
+      <textarea id="descricao" placeholder="Descrição"></textarea>
+      <input type="number" id="preco" placeholder="Preço" required />
+      <button type="submit"><i class="fas fa-save"></i> Salvar</button>
+    </form>
 
-  <div id="listaImoveis"></div>
+    <input type="text" id="filtro" placeholder="🔍 Filtrar por título ou endereço..." />
+
+    <div id="alerta" class="alerta"></div>
+
+    <div id="lista-imoveis" class="lista-imoveis"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
-
 </html>

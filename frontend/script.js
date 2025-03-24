@@ -1,98 +1,146 @@
 const API_URL = 'https://api-rest-imoveis.onrender.com/api/imoveis';
-let imovelEditando = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  carregarImoveis();
+const form = document.getElementById('imovel-form');
+const listaImoveis = document.getElementById('lista-imoveis');
+const alerta = document.getElementById('alerta');
+const filtro = document.getElementById('filtro');
 
-  document.getElementById('formImovel').addEventListener('submit', async (e) => {
-    e.preventDefault();
+const titulo = document.getElementById('titulo');
+const endereco = document.getElementById('endereco');
+const descricao = document.getElementById('descricao');
+const preco = document.getElementById('preco');
+const id = document.getElementById('id');
 
-    const titulo = document.getElementById('titulo').value;
-    const endereco = document.getElementById('endereco').value;
-    const descricao = document.getElementById('descricao').value;
-    const preco = parseFloat(document.getElementById('preco').value);
+let listaCompleta = [];
 
-    if (!titulo || !endereco || isNaN(preco)) {
-      mostrarAlerta("Preencha corretamente os campos obrigatórios!", false);
-      return;
+function mostrarAlerta(mensagem, tipo = 'sucesso') {
+  alerta.innerText = mensagem;
+  alerta.className = `alerta ${tipo}`;
+  alerta.style.display = 'block';
+  setTimeout(() => {
+    alerta.style.display = 'none';
+  }, 3000);
+}
+
+function limparCampos() {
+  id.value = '';
+  titulo.value = '';
+  endereco.value = '';
+  descricao.value = '';
+  preco.value = '';
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (!titulo.value || !endereco.value || !preco.value) {
+    mostrarAlerta('Preencha os campos obrigatórios.', 'erro');
+    return;
+  }
+
+  const imovel = {
+    titulo: titulo.value,
+    endereco: endereco.value,
+    descricao: descricao.value,
+    preco: parseFloat(preco.value),
+  };
+
+  try {
+    if (id.value) {
+      await fetch(`${API_URL}/${id.value}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(imovel),
+      });
+      mostrarAlerta('Imóvel atualizado com sucesso!');
+    } else {
+      await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(imovel),
+      });
+      mostrarAlerta('Imóvel cadastrado com sucesso!');
     }
 
-    try {
-      if (imovelEditando) {
-        await fetch(`${API_URL}/${imovelEditando}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ titulo, endereco, descricao, preco })
-        });
-        mostrarAlerta("Imóvel atualizado com sucesso!", true);
-        imovelEditando = null;
-      } else {
-        await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ titulo, endereco, descricao, preco })
-        });
-        mostrarAlerta("Imóvel cadastrado com sucesso!", true);
-      }
-
-      e.target.reset();
-      carregarImoveis();
-    } catch (erro) {
-      mostrarAlerta("Erro ao salvar imóvel!", false);
-    }
-  });
+    limparCampos();
+    carregarImoveis();
+  } catch (error) {
+    mostrarAlerta('Erro ao salvar o imóvel.', 'erro');
+    console.error(error);
+  }
 });
 
 async function carregarImoveis() {
-  const resposta = await fetch(API_URL);
-  const imoveis = await resposta.json();
-
-  const lista = document.getElementById('listaImoveis');
-  lista.innerHTML = '';
-
-  imoveis.forEach(imovel => {
-    const div = document.createElement('div');
-    div.classList.add('imovel');
-    div.innerHTML = `
-      <strong>${imovel.titulo}</strong><br>
-      Endereço: ${imovel.endereco}<br>
-      Descrição: ${imovel.descricao || '---'}<br>
-      Preço: R$ ${imovel.preco.toFixed(2)}<br>
-      <button onclick="editarImovel(${imovel.id})">Editar</button>
-      <button onclick="deletarImovel(${imovel.id})">Excluir</button>
-    `;
-    lista.appendChild(div);
-  });
-}
-
-async function editarImovel(id) {
-  const resposta = await fetch(`${API_URL}/${id}`);
-  const imovel = await resposta.json();
-
-  document.getElementById('titulo').value = imovel.titulo;
-  document.getElementById('endereco').value = imovel.endereco;
-  document.getElementById('descricao').value = imovel.descricao;
-  document.getElementById('preco').value = imovel.preco;
-
-  imovelEditando = id;
-}
-
-async function deletarImovel(id) {
   try {
-    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-    mostrarAlerta("Imóvel excluído com sucesso!", true);
-    carregarImoveis();
-  } catch (erro) {
-    mostrarAlerta("Erro ao excluir imóvel!", false);
+    const res = await fetch(API_URL);
+    const imoveis = await res.json();
+
+    listaCompleta = imoveis;
+    exibirImoveis(imoveis);
+  } catch (error) {
+    mostrarAlerta('Erro ao carregar imóveis.', 'erro');
+    console.error(error);
   }
 }
 
-function mostrarAlerta(mensagem, sucesso = true) {
-  const alerta = document.createElement('div');
-  alerta.className = `alerta ${sucesso ? 'sucesso' : 'erro'}`;
-  alerta.textContent = mensagem;
+function exibirImoveis(imoveis) {
+  listaImoveis.innerHTML = '';
 
-  document.body.prepend(alerta);
+  if (imoveis.length === 0) {
+    listaImoveis.innerHTML = '<p>Nenhum imóvel encontrado.</p>';
+    return;
+  }
 
-  setTimeout(() => alerta.remove(), 3000);
+  imoveis.forEach((imovel) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <h3>${imovel.titulo}</h3>
+      <p><strong>Endereço:</strong> ${imovel.endereco}</p>
+      <p><strong>Descrição:</strong> ${imovel.descricao || '-'}</p>
+      <p><strong>Preço:</strong> R$ ${imovel.preco.toFixed(2)}</p>
+      <div class="acoes">
+        <button class="editar"><i class="fas fa-edit"></i> Editar</button>
+        <button class="excluir"><i class="fas fa-trash-alt"></i> Excluir</button>
+      </div>
+    `;
+
+    card.querySelector('.editar').addEventListener('click', () => {
+      id.value = imovel.id;
+      titulo.value = imovel.titulo;
+      endereco.value = imovel.endereco;
+      descricao.value = imovel.descricao;
+      preco.value = imovel.preco;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    card.querySelector('.excluir').addEventListener('click', async () => {
+      if (confirm(`Deseja excluir "${imovel.titulo}"?`)) {
+        try {
+          await fetch(`${API_URL}/${imovel.id}`, {
+            method: 'DELETE',
+          });
+          mostrarAlerta('Imóvel excluído com sucesso!');
+          carregarImoveis();
+        } catch (error) {
+          mostrarAlerta('Erro ao excluir o imóvel.', 'erro');
+          console.error(error);
+        }
+      }
+    });
+
+    listaImoveis.appendChild(card);
+  });
 }
+
+filtro.addEventListener('input', () => {
+  const termo = filtro.value.toLowerCase();
+  const filtrados = listaCompleta.filter((imovel) =>
+    imovel.titulo.toLowerCase().includes(termo) ||
+    imovel.endereco.toLowerCase().includes(termo)
+  );
+  exibirImoveis(filtrados);
+});
+
+carregarImoveis();
