@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/api/imoveis';
+const API_URL = 'https://api-rest-imoveis.onrender.com/api/imoveis';
 let imovelEditando = null;
 
 document.addEventListener('DOMContentLoaded', () => {
