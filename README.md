@@ -1,37 +1,93 @@
-# 📌 API REST + Front-end (Cadastro de Imóveis)
+# ⚙️ API REST - Cadastro de Imóveis
 
-Este projeto apresenta uma API REST desenvolvida com **Node.js, Express, Sequelize e PostgreSQL**, acompanhada por uma aplicação **Front-end** criada com HTML, CSS e JavaScript puro.
+Esta é uma API REST desenvolvida com **Node.js**, **Express**, **Sequelize** e **PostgreSQL**, responsável por gerenciar o cadastro de imóveis. A aplicação está hospedada no Render e oferece rotas completas para operações CRUD.
 
 ---
 
-## 🚧 Tecnologias usadas
+## 🔗 Acesse a API Online
 
-### 🔹 Backend:
-- Node.js
-- Express
-- Sequelize
-- PostgreSQL
+👉 [https://api-rest-imoveis.onrender.com/api/imoveis](https://api-rest-imoveis.onrender.com/api/imoveis)
 
-### 🔹 Frontend:
-- HTML
-- CSS
-- JavaScript puro (sem frameworks)
+> Você pode testar com ferramentas como **Insomnia** ou **Postman**
 
-## ⚙️ Funcionalidades do Projeto
+---
 
-- ✅ **Cadastro de imóveis** (CRUD completo)
-- ✅ **Validação dos campos com mensagens de alerta**
-- ✅ **Edição e exclusão de imóveis**
-- ✅ **Alertas visuais claros para sucesso e erro**
-- ✅ **Layout responsivo e amigável**
+## ✨ Funcionalidades
 
+- ✅ Criação de imóveis
+- ✅ Consulta de imóveis
+- ✅ Edição e exclusão de imóveis
+- ✅ Conexão com banco PostgreSQL no Render
+- ✅ Estrutura com Sequelize (ORM)
+- ✅ Organização modular (rotas, models, config)
 
-## 📌 Rotas da API REST
+---
 
-| Método | Rota          | Descrição                 |
-|--------|---------------|---------------------------|
-| POST   | /api/imoveis  | Cria novo imóvel          |
-| GET    | /api/imoveis  | Lista todos imóveis       |
-| GET    | /api/imoveis/:id | Busca imóvel específico |
-| PUT    | /api/imoveis/:id | Atualiza imóvel         |
-| DELETE | /api/imoveis/:id | Exclui imóvel           |
+## 📡 Rotas disponíveis
+
+| Método | Rota                   | Descrição                    |
+|--------|------------------------|------------------------------|
+| GET    | /api/imoveis          | Lista todos os imóveis       |
+| GET    | /api/imoveis/:id      | Busca um imóvel por ID       |
+| POST   | /api/imoveis          | Cria um novo imóvel          |
+| PUT    | /api/imoveis/:id      | Atualiza um imóvel existente |
+| DELETE | /api/imoveis/:id      | Remove um imóvel             |
+
+---
+
+## 🧠 Tecnologias utilizadas
+
+- **Node.js**
+- **Express**
+- **Sequelize**
+- **PostgreSQL**
+- **Nodemon** (modo dev)
+
+---
+
+## ⚙️ Como rodar localmente
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/anagabriellega/api-rest-imoveis.git
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Configure o arquivo `.env` com seus dados do banco:
+```env
+DB_USER=seu_usuario
+DB_PASS=sua_senha
+DB_NAME=seu_banco
+DB_HOST=localhost
+DB_PORT=5432
+```
+
+4. Crie o banco com o mesmo nome e execute:
+```bash
+npm run dev
+```
+
+---
+
+## 📦 Estrutura do Projeto
+
+```
+api-rest-imoveis
+├── config           # Configuração do Sequelize
+├── models           # Modelo dos dados
+├── routes           # Rotas da API
+├── controllers      # Lógica de controle (CRUD)
+├── server.js        # Ponto de entrada do servidor
+└── .env             # Variáveis de ambiente
+```
+
+---
+
+💚 Feito com dedicação por **Ana Gabrielle**
+
+Se quiser ver o front-end separado dessa aplicação, acesse:  
+🔗 [Repositório do Front](https://github.com/anagabriellega/front-imoveis)
