@@ -1,21 +1,33 @@
-# API REST - Cadastro de Imóveis
+# 📌 API REST + Front-end (Cadastro de Imóveis)
 
-## Tecnologias
+Este projeto apresenta uma API REST desenvolvida com **Node.js, Express, Sequelize e PostgreSQL**, acompanhada por uma aplicação **Front-end** criada com HTML, CSS e JavaScript puro.
+
+---
+
+## 🚧 Tecnologias usadas
+
+### 🔹 Backend:
 - Node.js
 - Express
-- Sequelize ORM
+- Sequelize
 - PostgreSQL
 
-## Funcionalidades
-- Cadastro de imóveis (CRUD completo)
+### 🔹 Frontend:
+- HTML
+- CSS
+- JavaScript puro (sem frameworks)
 
-## Como Rodar
-- Clone o projeto
-- Execute `npm install`
-- Configure o `.env`
-- Execute `npm run dev`
+## ⚙️ Funcionalidades do Projeto
 
-## Rotas
+- ✅ **Cadastro de imóveis** (CRUD completo)
+- ✅ **Validação dos campos com mensagens de alerta**
+- ✅ **Edição e exclusão de imóveis**
+- ✅ **Alertas visuais claros para sucesso e erro**
+- ✅ **Layout responsivo e amigável**
+
+
+## 📌 Rotas da API REST
+
 | Método | Rota          | Descrição                 |
 |--------|---------------|---------------------------|
 | POST   | /api/imoveis  | Cria novo imóvel          |
